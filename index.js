@@ -9,7 +9,7 @@ var eventHubListener = require("./soaring-avro-event-consumer.js");
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.4"
+var APP_VERSION = "0.0.5"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 console.log("Running " + APP_NAME + " version " + APP_VERSION+"; listening at port "+PORT);
 console.log("subscribe")

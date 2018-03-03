@@ -15,4 +15,4 @@ spec:
       - path: /$KUBERNETES_NAMESPACE/app/
         backend:
           serviceName: rest-avroeventmonitorms-svc
-          servicePort: 8099
+          servicePort: 8200

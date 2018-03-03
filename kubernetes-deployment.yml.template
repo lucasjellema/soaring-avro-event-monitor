@@ -48,6 +48,6 @@ spec:
   selector:
     run: rest-avroeventmonitorms
   ports:
-    - port: 8099
+    - port: 8200
       targetPort: 8099
   type: ClusterIP
