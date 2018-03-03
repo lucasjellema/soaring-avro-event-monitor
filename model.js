@@ -47,12 +47,27 @@ eventsModel.saveProduct = async function (product) {
             body: product
         }
         );
-
         console.log("Response: " + JSON.stringify(response));
         return product;
     }
     catch (e) {
         console.error("Error in Elastic Search Save Product - index document " + product.id + ":" + JSON.stringify(e))
+    }
+}
+
+eventsModel.saveProductStockTransaction = async function (stocktransaction) {
+    console.log("saveProductStockTransaction "+JSON.stringify(stocktransaction))
+    try {
+        var response = await client.index({
+            index: 'warehouse',
+            type: 'stocktransaction',
+            body: stocktransaction
+        });
+        console.log("Response: " + JSON.stringify(response));
+        return stocktransaction;
+    } catch (e) {
+        console.error("Error in Elastic Search - create stocktransaction document :" + JSON.stringify(e))
+        throw e
     }
 
 }

@@ -107,9 +107,10 @@ async function handleProductEventHubEvent(message) {
     result = await model.saveProduct(product);
     console.log("Debug: Storing product in Warehouse Product Registry result "+JSON.stringify(result))    
     // create stocktransaction 0 in Elastic Search Index
+    console.log("Debug: Create Stock Transaction for product ")
     result = await model.saveProductStockTransaction(
         {
-            "productIdentifier": product.id
+            "productIdentifier": message.productId
             , "quantityChange": 0
             , "category": "introduction"
             , "timestamp": getTimestampAsString()
