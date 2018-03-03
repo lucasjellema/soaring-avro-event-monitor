@@ -9,29 +9,29 @@ var eventHubListener = require("./soaring-avro-event-consumer.js");
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.5"
+var APP_VERSION = "0.0.6"
 var APP_NAME = "Soaring Avro Event Monitor MS"
-console.log("Running " + APP_NAME + " version " + APP_VERSION+"; listening at port "+PORT);
+console.log("Running " + APP_NAME + " version " + APP_VERSION + "; listening at port " + PORT);
 console.log("subscribe")
 
-var totalEventCount=0;
+var totalEventCount = 0;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
 
 app.get('/about', function (req, res) {
-    var about ={
-      "about" : "Soaring Avro Event Consumer",
-      "PORT" : process.env.PORT,
-      "APP_VERSION ": APP_VERSION 
+    var about = {
+        "about": "Soaring Avro Event Consumer",
+        "PORT": process.env.PORT,
+        "APP_VERSION ": APP_VERSION
     }
-    res.json( about);
-  })
-  
-  
+    res.json(about);
+})
+
+
 app.get('/health', function (req, res) {
-    var health = { "status": "OK", "uptime": process.uptime(),"version": APP_VERSION ,"numberOfEventsProcessed": totalEventCount}
+    var health = { "status": "OK", "uptime": process.uptime(), "version": APP_VERSION, "numberOfEventsProcessed": totalEventCount }
     res.setHeader('Content-Type', 'application/json');
     res.send(health);
 });
@@ -44,11 +44,11 @@ eventHubListener.subscribeToEvents(
         try {
             console.log("The event:")
             console.log(JSON.stringify(message))
-            if (topic == "XXXa516817-soaring-products" && message.productId) {
+            handleSoaringEventHubEvent(topic, message)
+            if (topic == "a516817-soaring-products" && message.productId) {
                 handleProductEventHubEvent(message)
-            } else {
-                handleSoaringEventHubEvent(topic, message)
             }
+
         } catch (error) {
             console.log("failed to handle message from event hub", error);
 
@@ -58,7 +58,7 @@ eventHubListener.subscribeToEvents(
 
 
 async function handleProductEventHubEvent(message) {
-    console.log("Event payload " + JSON.stringify(message));
+    console.log("Product Event payload " + JSON.stringify(message));
     var event = {
         "eventType": "ProductEvent",
         "payload": {
@@ -87,13 +87,33 @@ async function handleProductEventHubEvent(message) {
     }
     // store event in Elastic Search Index
     var result = await model.saveProductEvent(event);
+
+    var product =
+        {
+            "id": message.productId,
+            "name": message.productName.string,
+            "weight": message.weight ? message.weight.double : null,
+            "dimension": message.dimension ? {
+                "unit": message.dimension.unit ? message.dimension.unit.string : null,
+                "length": message.dimension.length ? message.dimension.length.double : null,
+                "height": message.dimension.height ? message.dimension.height.double : null,
+                "width": message.dimension.width ? message.dimension.width.double : null
+            } : null,
+            "categories": message.categories
+        }
+
+    console.log("Storing product in Warehouse Product Registry")    
+    // store (or update?) product  in Elastic Search Index
+    var result = await model.saveProduct(product);
+    console.log("Debug: Storing product in Warehouse Product Registry result "+JSON.stringify(result))    
+
 }
 
 
 async function handleSoaringEventHubEvent(topic, message) {
     console.log("Event payload " + JSON.stringify(message));
     var event = {
-        "eventType": topic+"Event",
+        "eventType": topic + "Event",
         "payload": message
         ,
         "module": topic,
@@ -101,7 +121,7 @@ async function handleSoaringEventHubEvent(topic, message) {
         "timestamp": getTimestampAsString()
     }
     // store event in Elastic Search Index
-    var result = await model.dumpSoaringEvent("soaringevents"+topic,event);
+    var result = await model.dumpSoaringEvent("soaringevents" + topic, event);
 }
 
 getTimestampAsString = function (theDate) {

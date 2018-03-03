@@ -11,8 +11,8 @@ console.log("Env Setting SCHEMA_REGISTRY: " + SCHEMA_REGISTRY)
 
 
 var kafkaAvro = new KafkaAvro({
-    kafkaBroker: '129.150.77.116:6667',
-    schemaRegistry: 'http://129.150.114.134:8081',
+    kafkaBroker: EVENT_HUB_PUBLIC_IP+':6667',
+    schemaRegistry: SCHEMA_REGISTRY,
     parseOptions: { wrapUnions: true }
 });
 

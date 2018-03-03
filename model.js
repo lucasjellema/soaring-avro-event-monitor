@@ -39,6 +39,25 @@ eventsModel.saveProductEvent = async function (event) {
     }
 }//eventsModel.saveProductEvent
 
+eventsModel.saveProduct = async function (product) {
+    try {
+        var response = await client.index({
+            index: 'products',
+            type: 'doc',
+            body: product
+        }
+        );
+
+        console.log("Response: " + JSON.stringify(response));
+        return product;
+    }
+    catch (e) {
+        console.error("Error in Elastic Search Save Product - index document " + product.id + ":" + JSON.stringify(e))
+    }
+
+}
+
+
 eventsModel.dumpSoaringEvent = async function (topic,event) {
     console.log(" event.transactionIdentifier"+ event.transactionIdentifier)
     console.log(" event type "+ event.eventType)
@@ -57,3 +76,4 @@ eventsModel.dumpSoaringEvent = async function (topic,event) {
         console.error("Error in Elastic Search - index document " + event.transactionIdentifier + ":" + JSON.stringify(e))
     }
 }//eventsModel.dumpSoaringEvent
+
