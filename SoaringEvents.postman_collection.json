@@ -1,0 +1,751 @@
+{
+	"info": {
+		"name": "SoaringEvents",
+		"_postman_id": "34d9bab2-1ab0-b60c-b2b5-97da576430e6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Elastic: create soaringeventsShippingNews index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsshippingnews"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create soaringeventsProduct index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsproduct"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Mapping definition for Shipping Event type in event index",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"area\": {\n      \"acres\": \"49,057.36\",\n      \"square_km\": \"198.5\"\n    },\n    \"coordinates\": {\n      \"latitude\": 44.35,\n      \"longitude\": -68.21\n    },\n    \"date_established_readable\": \"February 26, 1919\",\n    \"date_established_unix\": -1604599200,\n    \"description\": \"Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.\",\n    \"image\": {\n      \"url\": \"acadia.jpg\",\n      \"attribution\": \"PixelBay/@Skeeze\",\n      \"attribution_url\": \"https://pixabay.com/en/users/skeeze-272447/\"\n    },\n    \"nps_link\": \"https://www.nps.gov/acad/index.htm\",\n    \"states\": [\n      {\n        \"id\": \"state_maine\",\n        \"title\": \"Maine\"\n      }\n    ],\n    \"title\": \"Acadia\",\n    \"id\": \"park_acadia\",\n    \"visitors\": \"3,303,393\",\n    \"world_heritage_site\": false\n  }"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews/_mapping/ShippingEvent?pretty",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsshippingnews",
+						"_mapping",
+						"ShippingEvent"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Mapping definition for Product Event type in event index",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"area\": {\n      \"acres\": \"49,057.36\",\n      \"square_km\": \"198.5\"\n    },\n    \"coordinates\": {\n      \"latitude\": 44.35,\n      \"longitude\": -68.21\n    },\n    \"date_established_readable\": \"February 26, 1919\",\n    \"date_established_unix\": -1604599200,\n    \"description\": \"Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.\",\n    \"image\": {\n      \"url\": \"acadia.jpg\",\n      \"attribution\": \"PixelBay/@Skeeze\",\n      \"attribution_url\": \"https://pixabay.com/en/users/skeeze-272447/\"\n    },\n    \"nps_link\": \"https://www.nps.gov/acad/index.htm\",\n    \"states\": [\n      {\n        \"id\": \"state_maine\",\n        \"title\": \"Maine\"\n      }\n    ],\n    \"title\": \"Acadia\",\n    \"id\": \"park_acadia\",\n    \"visitors\": \"3,303,393\",\n    \"world_heritage_site\": false\n  }"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct/_mapping/ProductEvent?pretty",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsproduct",
+						"_mapping",
+						"ProductEvent"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: put single shipping event document",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"eventType\": \"ShippingEvent\",\r\n    \"payload\": {\r\n        \"orderIdentifier\": \"93434ddd1ssa1\",\r\n        \"nameAddressee\": \"Gerrit Heuvel\",\r\n        \"destination\": {\r\n            \"country\": \"nl\",\r\n            \"city\": \"utrecht\",\r\n            \"coordinates\": {\r\n                \"lat\": \"52.08095165\",\r\n                \"lon\": \"5.12768031549829\"\r\n            }\r\n        },\r\n        \"shippingMethod\": \"premium\",\r\n        \"giftWrapping\": false,\r\n        \"personalMessage\": \"Enjoy this stuff.\",\r\n        \"items\": [\r\n            {\r\n                \"productIdentifier\": \"AA7\",\r\n                \"itemCount\": 132\r\n            },\r\n            {\r\n                \"productIdentifier\": \"XCZ\",\r\n                \"itemCount\": 21\r\n            }\r\n        ],\r\n        \"shippingId\": \"4244f22b-d662-d8b8-2b1d-fedcbc0f32df\",\r\n        \"shippingStatus\": \"delivered\",\r\n        \"auditTrail\": [\r\n            {\r\n                \"comment\": \"creation of new shipping\",\r\n                \"timestamp\": \"2018-2-21T13:11:48\",\r\n                \"status\": \"new\"\r\n            },\r\n            {\r\n                \"comment\": \"order items picked for shipping\",\r\n                \"timestamp\": \"2018-2-21T13:13:44\",\r\n                \"status\": \"picked\"\r\n            },\r\n            {\r\n                \"comment\": \"parcel(s) handed over to parcel delivery service\",\r\n                \"timestamp\": \"2018-2-21T13:15:48\",\r\n                \"status\": \"handedOverToParcelDelivery\"\r\n            },\r\n            {\r\n                \"comment\": \"update from parcel delivery service\",\r\n                \"timestamp\": \"2018-2-21T13:15:48\",\r\n                \"status\": \"handedOverToParcelDelivery\"\r\n            },\r\n            {\r\n                \"timestamp\": \"2018-2-21T13:17:50\",\r\n                \"status\": \"delivered\",\r\n                \"comment\": \"update from parcel delivery service\"\r\n            }\r\n        ],\r\n        \"shippingCosts\": 63.516000000000005,\r\n        \"submissionDate\": \"2018-2-21T13:11:48\",\r\n        \"parcels\": [\r\n            {\r\n                \"parcelDeliveryService\": \"XYZ\",\r\n                \"trackAndTraceIdentifier\": \"TX-XYZ4244f22b-d662-d8b8-2b1d-fedcbc0f32df1\",\r\n                \"parcelLogItems\": [\r\n                    {\r\n                        \"location\": \"Frankfurt, de\",\r\n                        \"parcelStatus\": \"inDepot\"\r\n                    },\r\n                    {\r\n                        \"location\": \"\",\r\n                        \"parcelStatus\": \"enRoute\"\r\n                    },\r\n                    {\r\n                        \"location\": \"customer\",\r\n                        \"parcelStatus\": \"delivered\"\r\n                    }\r\n                ]\r\n            }\r\n        ]\r\n    },\r\n    \"module\": \"logistics.microservice\",\r\n    \"transactionIdentifier\": \"4244f22b-d662-d8b8-2b1d-fedcbc0f32df\",\r\n    \"timestamp\": \"2018-2-21T13:11:48\"\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews/ShippingEvent/_6",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsshippingnews",
+						"ShippingEvent",
+						"_6"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: put single product event document",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"eventType\": \"ProductEvent\",\r\n    \"payload\": {\r\n    \"productIdentifier\": \"5a96b54bdc0e820001cd689f\",\r\n    \"productCode\": \"AX330T\",\r\n    \"productName\": \"Light Brown Men Shoe 6\",\r\n    \"imageUrl\": \"01_men_one.jpg\",\r\n    \"price\": 68.39,\r\n    \"size\": 43,\r\n    \"weight\": 0,\r\n    \"categories\": [\r\n        \"men\"\r\n    ],\r\n    \"tags\": [\r\n        \"shoe\",\r\n        \"ding\"\r\n    ],\r\n    \"dimension\": {\r\n        \"unit\": \"cm\",\r\n        \"length\": 10.2,\r\n        \"height\": 10.4,\r\n        \"width\": 5.4\r\n    },\r\n    \"color\": \"lightbrown\"\r\n},\r\n    \"module\": \"logistics.microservice\",\r\n    \"transactionIdentifier\": \"4244f22b-d662-d8b8-2b1d-fedcbc0f32df\",\r\n    \"timestamp\": \"2018-2-21T13:11:48\"\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct/ProductEvent/_9",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsproduct",
+						"ProductEvent",
+						"_9"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaringevents index - type ShippingEvent",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    },\r\n                    \"payload\": {\r\n                        \"properties\": {\r\n                            \"auditTrail\": {\r\n                                \"properties\": {\r\n                                    \"comment\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    },\r\n                                    \"status\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    },\r\n                                    \"timestamp\": {\r\n                                        \"type\": \"date\",\r\n                                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"destination\": {\r\n                                \"properties\": {\r\n                                    \"city\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    },\r\n                                    \"coordinates\": {\r\n                                        \"type\": \"geo_point\"\r\n                                    },\r\n                                    \"country\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"giftWrapping\": {\r\n                                \"type\": \"boolean\"\r\n                            },\r\n                            \"items\": {\r\n                                \"properties\": {\r\n                                    \"itemCount\": {\r\n                                        \"type\": \"long\"\r\n                                    },\r\n                                    \"productIdentifier\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"nameAddressee\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"orderIdentifier\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"parcels\": {\r\n                                \"properties\": {\r\n                                    \"parcelDeliveryService\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    },\r\n                                    \"parcelLogItems\": {\r\n                                        \"properties\": {\r\n                                            \"location\": {\r\n                                                \"type\": \"text\",\r\n                                                \"fields\": {\r\n                                                    \"keyword\": {\r\n                                                        \"type\": \"keyword\",\r\n                                                        \"ignore_above\": 256\r\n                                                    }\r\n                                                }\r\n                                            },\r\n                                            \"parcelStatus\": {\r\n                                                \"type\": \"text\",\r\n                                                \"fields\": {\r\n                                                    \"keyword\": {\r\n                                                        \"type\": \"keyword\",\r\n                                                        \"ignore_above\": 256\r\n                                                    }\r\n                                                }\r\n                                            },\r\n                                            \"parcelLogTimestamp\":{\r\n                                            \t\"type\": \"date\",\r\n                                                \"format\": \"yyyy-MM-dd'T'HH:mm:ss\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                                            }\r\n                                        }\r\n                                    },\r\n                                    \"trackAndTraceIdentifier\": {\r\n                                        \"type\": \"text\",\r\n                                        \"fields\": {\r\n                                            \"keyword\": {\r\n                                                \"type\": \"keyword\",\r\n                                                \"ignore_above\": 256\r\n                                            }\r\n                                        }\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"personalMessage\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"shippingCosts\": {\r\n                                \"type\": \"float\"\r\n                            },\r\n                            \"shippingId\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"shippingMethod\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"shippingStatus\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"submissionDate\": {\r\n                                \"type\": \"date\",\r\n                                \"format\": \"yyyy-MM-dd'T'HH:mm:ss\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            }\r\n                        }\r\n                    },\r\n                    \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews/_mapping/ShippingEvent",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsshippingnews",
+						"_mapping",
+						"ShippingEvent"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaringeventsProduct index - type ProductEvent",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"payload\": {\r\n                        \"properties\": {\r\n                            \"categories\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"color\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"dimension\": {\r\n                                \"properties\": {\r\n                                    \"height\": {\r\n                                        \"type\": \"float\"\r\n                                    },\r\n                                    \"length\": {\r\n                                        \"type\": \"float\"\r\n                                    },\r\n                                    \"unit\": {\r\n                                        \"type\": \"keyword\"\r\n                                    },\r\n                                    \"width\": {\r\n                                        \"type\": \"float\"\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"imageUrl\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"price\": {\r\n                                \"type\": \"float\"\r\n                            },\r\n                            \"productCode\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"productIdentifier\": {\r\n                                \"type\": \"keyword\"\r\n                            },\r\n                            \"productName\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"size\": {\r\n                                \"type\": \"long\"\r\n                            },\r\n                            \"tags\": {\r\n                                \"type\": \"text\",\r\n                                \"fields\": {\r\n                                    \"keyword\": {\r\n                                        \"type\": \"keyword\",\r\n                                        \"ignore_above\": 256\r\n                                    }\r\n                                }\r\n                            },\r\n                            \"weight\": {\r\n                                \"type\": \"long\"\r\n                            }\r\n                        }\r\n                    },\r\n                    \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct/_mapping/ProductEvent",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsproduct",
+						"_mapping",
+						"ProductEvent"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete soaring events shippingnews index",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsshippingnews"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete soaringeventsProduct index Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsproduct"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: Create soaringeventsa516817-soaring-add-to-shopping-cart index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-add-to-shopping-cart",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-add-to-shopping-cart"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to shopping cart index - type a516817-soaring-add-to-shopping-cartEvent",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-add-to-shopping-cart/_mapping/a516817-soaring-add-to-shopping-cartEvent",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-add-to-shopping-cart",
+						"_mapping",
+						"a516817-soaring-add-to-shopping-cartEvent"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete soaringeventsa516817-soaring-add-to-shopping-cart index",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-add-to-shopping-cart",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-add-to-shopping-cart"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: Create soaringeventsa516817-soaring-products index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-products",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-products"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to soaringeventsa516817-soaring-products index, type a516817-soaring-productsEvent",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-products/_mapping/a516817-soaring-productsEvent",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-products",
+						"_mapping",
+						"a516817-soaring-productsEvent"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete soaringeventsa516817-soaring-products",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-products",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-products"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: Create a516817-soaring-user-sign-ins",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-user-sign-ins",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-user-sign-ins"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to soaringeventsa516817-a516817-soaring-user-sign-ins index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-user-sign-ins/_mapping/a516817-soaring-user-sign-ins",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-user-sign-ins",
+						"_mapping",
+						"a516817-soaring-user-sign-ins"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Elastic: delete a516817-soaring-user-sign-ins",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-user-sign-ins",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-user-sign-ins"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		}
+		,
+		{
+			"name": "Elastic: Create a516817-soaring-order-created",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-order-created",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-order-created"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to soaringeventsa516817-a516817-soaring-order-created index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-order-created/_mapping/a516817-soaring-order-created",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-order-created",
+						"_mapping",
+						"a516817-soaring-order-created"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Elastic: delete a516817-soaring-order-created",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-order-created",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-order-created"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		}
+		,
+		{
+			"name": "Elastic: Create a516817-soaring-customers",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-customers",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-customers"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to soaringeventsa516817-a516817-soaring-customers index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-customers/_mapping/a516817-soaring-customers",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-customers",
+						"_mapping",
+						"a516817-soaring-customers"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		
+		{
+			"name": "Elastic: delete a516817-soaring-customers",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-customers",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-customers"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		}
+	]
+}

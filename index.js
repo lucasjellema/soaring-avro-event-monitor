@@ -9,7 +9,7 @@ var eventHubListener = require("./soaring-avro-event-consumer.js");
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.6"
+var APP_VERSION = "0.0.7"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 console.log("Running " + APP_NAME + " version " + APP_VERSION + "; listening at port " + PORT);
 console.log("subscribe")
@@ -104,8 +104,16 @@ async function handleProductEventHubEvent(message) {
 
     console.log("Storing product in Warehouse Product Registry")    
     // store (or update?) product  in Elastic Search Index
-    var result = await model.saveProduct(product);
+    result = await model.saveProduct(product);
     console.log("Debug: Storing product in Warehouse Product Registry result "+JSON.stringify(result))    
+    // create stocktransaction 0 in Elastic Search Index
+    result = await model.saveProductStockTransaction(
+        {
+            "productIdentifier": product.id
+            , "quantityChange": 0
+            , "category": "introduction"
+            , "timestamp": getTimestampAsString()
+        })
 
 }
 
