@@ -42,7 +42,8 @@ kafkaAvro.getConsumer({
         console.log("create consumer")
         // Topic Name can be a string, or an array of strings
 
-        var topicName = ['a516817-soaring-products', 'a516817-soaring-user-sign-ins', 'a516817-soaring-add-to-shopping-cart', 'a516817-soaring-order-created', 'a516817-soaring-customers'];
+        var topicName = ['a516817-soaring-products', 'a516817-soaring-user-sign-ins', 'a516817-soaring-add-to-shopping-cart'
+        , 'a516817-soaring-order-created', 'a516817-soaring-customers', 'a516817-soaring-payment-status', 'a516817-soaring-customer-status'];
         console.log("Listening to topics " + topicName)
         var stream = consumer.getReadStream(topicName, {
             waitInterval: 0

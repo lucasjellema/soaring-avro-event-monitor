@@ -1,7 +1,7 @@
 {
 	"info": {
 		"name": "SoaringEvents",
-		"_postman_id": "34d9bab2-1ab0-b60c-b2b5-97da576430e6",
+		"_postman_id": "ba8aff12-1215-4bde-8b82-c8e528ccf8df",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -77,7 +77,7 @@
 					"raw": "{\n    \"area\": {\n      \"acres\": \"49,057.36\",\n      \"square_km\": \"198.5\"\n    },\n    \"coordinates\": {\n      \"latitude\": 44.35,\n      \"longitude\": -68.21\n    },\n    \"date_established_readable\": \"February 26, 1919\",\n    \"date_established_unix\": -1604599200,\n    \"description\": \"Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.\",\n    \"image\": {\n      \"url\": \"acadia.jpg\",\n      \"attribution\": \"PixelBay/@Skeeze\",\n      \"attribution_url\": \"https://pixabay.com/en/users/skeeze-272447/\"\n    },\n    \"nps_link\": \"https://www.nps.gov/acad/index.htm\",\n    \"states\": [\n      {\n        \"id\": \"state_maine\",\n        \"title\": \"Maine\"\n      }\n    ],\n    \"title\": \"Acadia\",\n    \"id\": \"park_acadia\",\n    \"visitors\": \"3,303,393\",\n    \"world_heritage_site\": false\n  }"
 				},
 				"url": {
-					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews/_mapping/ShippingEvent?pretty",
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsshippingnews/_mapping/ShippingEvent?pretty=",
 					"host": [
 						"{{ELASTIC_HOME}}"
 					],
@@ -95,7 +95,7 @@
 						}
 					]
 				},
-				"description": ""
+				"description": null
 			},
 			"response": []
 		},
@@ -114,7 +114,7 @@
 					"raw": "{\n    \"area\": {\n      \"acres\": \"49,057.36\",\n      \"square_km\": \"198.5\"\n    },\n    \"coordinates\": {\n      \"latitude\": 44.35,\n      \"longitude\": -68.21\n    },\n    \"date_established_readable\": \"February 26, 1919\",\n    \"date_established_unix\": -1604599200,\n    \"description\": \"Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.\",\n    \"image\": {\n      \"url\": \"acadia.jpg\",\n      \"attribution\": \"PixelBay/@Skeeze\",\n      \"attribution_url\": \"https://pixabay.com/en/users/skeeze-272447/\"\n    },\n    \"nps_link\": \"https://www.nps.gov/acad/index.htm\",\n    \"states\": [\n      {\n        \"id\": \"state_maine\",\n        \"title\": \"Maine\"\n      }\n    ],\n    \"title\": \"Acadia\",\n    \"id\": \"park_acadia\",\n    \"visitors\": \"3,303,393\",\n    \"world_heritage_site\": false\n  }"
 				},
 				"url": {
-					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct/_mapping/ProductEvent?pretty",
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsproduct/_mapping/ProductEvent?pretty=",
 					"host": [
 						"{{ELASTIC_HOME}}"
 					],
@@ -132,7 +132,7 @@
 						}
 					]
 				},
-				"description": ""
+				"description": null
 			},
 			"response": []
 		},
@@ -542,7 +542,6 @@
 			},
 			"response": []
 		},
-		
 		{
 			"name": "Elastic: delete a516817-soaring-user-sign-ins",
 			"request": {
@@ -570,8 +569,7 @@
 				"description": "\t"
 			},
 			"response": []
-		}
-		,
+		},
 		{
 			"name": "Elastic: Create a516817-soaring-order-created",
 			"request": {
@@ -630,7 +628,6 @@
 			},
 			"response": []
 		},
-		
 		{
 			"name": "Elastic: delete a516817-soaring-order-created",
 			"request": {
@@ -658,8 +655,7 @@
 				"description": "\t"
 			},
 			"response": []
-		}
-		,
+		},
 		{
 			"name": "Elastic: Create a516817-soaring-customers",
 			"request": {
@@ -718,7 +714,6 @@
 			},
 			"response": []
 		},
-		
 		{
 			"name": "Elastic: delete a516817-soaring-customers",
 			"request": {
@@ -741,6 +736,178 @@
 					"port": "9200",
 					"path": [
 						"soaringeventsa516817-soaring-customers"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: Create a516817-soaring-payment-status",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-payment-status",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-payment-status"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to soaringeventsa516817-a516817-soaring-payment-status index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-payment-status/_mapping/a516817-soaring-payment-status",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-payment-status",
+						"_mapping",
+						"a516817-soaring-payment-status"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete a516817-soaring-payment-status",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-payment-status",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-payment-status"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: Create a516817-soaring-customer-status",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-customer-status",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-customer-status"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for soaring add to soaringeventsa516817-a516817-soaring-customer-status index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n                \"properties\": {\r\n                    \"eventType\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n                    \"module\": {\r\n                        \"type\": \"keyword\"\r\n                    },\r\n            \"timestamp\": {\r\n                        \"type\": \"date\",\r\n                        \"format\": \"yyyy-MM-dd'T'HH:mm:ss\"\r\n                    },\r\n                    \"transactionIdentifier\": {\r\n                        \"type\": \"text\",\r\n                        \"fields\": {\r\n                            \"keyword\": {\r\n                                \"type\": \"keyword\",\r\n                                \"ignore_above\": 256\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-customer-status/_mapping/a516817-soaring-customer-status",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-customer-status",
+						"_mapping",
+						"a516817-soaring-customer-status"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete a516817-soaring-customer-status",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/soaringeventsa516817-soaring-customer-status",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"soaringeventsa516817-soaring-customer-status"
 					]
 				},
 				"description": "\t"
