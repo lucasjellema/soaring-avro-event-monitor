@@ -5,11 +5,12 @@ var http = require('http');
 
 // local modules
 var eventHubListener = require("./soaring-avro-event-consumer.js");
+var orderCreatedEventProcessor = require("./process-order-created-event.js");
 
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.8"
+var APP_VERSION = "0.0.9"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 console.log("Running " + APP_NAME + " version " + APP_VERSION + "; listening at port " + PORT);
 console.log("subscribe")
@@ -48,8 +49,10 @@ eventHubListener.subscribeToEvents(
             if (topic == "a516817-soaring-products" && message.productId) {
                 handleProductEventHubEvent(message)
             }
-
-        } catch (error) {
+            if (topic == "a516817-soaring-order-created" ) {
+                orderCreatedEventProcessor.handleProductEventHubEvent(message)
+            }
+            } catch (error) {
             console.log("failed to handle message from event hub", error);
 
         }
@@ -127,7 +130,8 @@ async function handleSoaringEventHubEvent(topic, message) {
         ,
         "module": topic,
         "transactionIdentifier": Date.now(),
-        "timestamp": getTimestampAsString()
+        "timestamp": getTimestampAsString(),
+        "producer": "processed and recorded by "+APP_NAME+"-"+APP_VERSION
     }
     // store event in Elastic Search Index
     var result = await model.dumpSoaringEvent("soaringevents" + topic, event);

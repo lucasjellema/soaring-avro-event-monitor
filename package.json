@@ -6,15 +6,25 @@
   "scripts": {
     "start": "node index.js"
   },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "env": {
+      "node": true
+    },
+    "extends": "eslint:recommended"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bunyan": "^1.8.12",
-    "kafka-avro": "^0.8.1",
-    "elasticsearch": "^14.0.0",
     "body-parser": "~1.18.2",
+    "bunyan": "^1.8.12",
     "cookie-parser": "~1.4.3",
-    "express": "~4.15.5"
+    "elasticsearch": "^14.0.0",
+    "express": "~4.15.5",
+    "kafka-avro": "^0.8.1",
+    "request": "^2.83.0"
   }
 }
