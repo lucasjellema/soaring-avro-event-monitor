@@ -36,6 +36,8 @@ spec:
             value: $SCHEMA_REGISTRY
           - name: SOARING_PRODUCTS_TOPIC_NAME 
             value: $SOARING_PRODUCTS_TOPIC_NAME 
+          - name: LOGISTICS_MS_API_ENDPOINT 
+            value: $LOGISTICS_MS_API_ENDPOINT 
       imagePullSecrets:
       - name: wrelease
       restartPolicy: Always

@@ -1,6 +1,6 @@
 var request = require("request");
 
-console.log("Handle Order Created Event")
+console.log("Handle Order Created Event - Logistics Endpoint Env Var  "+process.env.LOGISTICS_MS_API_ENDPOINT )
 var LOGISTICS_MS_API_ENDPOINT = process.env.LOGISTICS_MS_API_ENDPOINT || 'https://oc-144-21-82-92.compute.oraclecloud.com:9129/api/logistics';
 
 var orderCreatedEventProcessor = module.exports;
