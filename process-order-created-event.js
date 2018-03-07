@@ -53,14 +53,15 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
     }
     console.log("Handle order, event =  " + JSON.stringify(event))
     //TODO invoke Logistics API to create shipping for order
+    console.log("Compose and send request to Logistics MS API to create shipping")
 
     //note:
     // to resolved an issue with the certificate (unable to verify the first certificate)
     // I added the  "rejectUnauthorized": false, based on this resource: https://stackoverflow.com/questions/31673587/error-unable-to-verify-the-first-certificate-in-nodejs
     var options = {
         method: 'POST',
-        "rejectUnauthorized": false, 
-                url: LOGISTICS_MS_API_ENDPOINT + '/shipping',
+        "rejectUnauthorized": false,
+        url: LOGISTICS_MS_API_ENDPOINT + '/shipping',
         headers:
             {
                 'Cache-Control': 'no-cache',
@@ -69,16 +70,33 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
         body:
             {
                 orderIdentifier: event.payload.orderId,
-                nameAddressee: event.payload.customer.firstName+" "+event.payload.customer.lastName,
-                destination: { "country":event.payload.addresses[0].country,  "city" :event.payload.addresses[0].city},
-                shippingMethod: 'economy',
-                giftWrapping: false,
-                personalMessage: null,
-                items:
-                    [{
-                        productIdentifier: event.payload.items[0].productId,
-                        itemCount: event.payload.items[0].quantity
-                    }]
+                nameAddressee: (event.payload.shipping && event.payload.shipping.firstName) ?
+                    event.payload.shipping.firstName + " " + event.payload.shipping.lastName
+                    : event.payload.customer.firstName + " " + event.payload.customer.lastName,
+                    // if there is a specific delivery address, use that for the destination; if there is none, use the first address found in the order created event
+                destination: event.payload.addresses.reduce((destination, address) => {
+                    console.log("From reduce on addresses; "+JSON.stringify(address)+"- destination "+JSON.stringify(destination))
+                    if (!destination || !destination.country || address.type.toUpperCase() == 'DELIVERY') {
+                        console.log("define destination ")
+                        destination.country = address.country, destination.city = address.city
+                        console.log("defined destination "+JSON.stringify(destination))
+                    }
+                    return destination
+                }
+                    , {"city":null, "country":null}),
+                shippingMethod: event.payload.shipping && event.payload.shipping.shippingMethod ? event.payload.shipping.shippingMethod : 'economy',
+                giftWrapping: event.payload.specialDetails && event.payload.specialDetails.giftWrapping && event.payload.specialDetails.giftWrapping.boolean
+                    ? event.payload.specialDetails.giftWrapping.boolean
+                    : false,
+                personalMessage: event.payload.specialDetails && event.payload.specialDetails.personalMessage && event.payload.specialDetails.personalMessage.string
+                    ? event.payload.specialDetails.personalMessage.string
+                    : false,
+                items: event.payload.items.map(item => {
+                    return {
+                        productIdentifier: item.productId,
+                        itemCount: item.quantity
+                    }
+                })
             },
         json: true
     };
