@@ -21,7 +21,7 @@ client.ping({
 
 
 eventsModel.saveProductEvent = async function (event) {
-    console.log(" event.transactionIdentifier"+ event.transactionIdentifier)
+    console.log("Save Product Event event.transactionIdentifier"+ event.transactionIdentifier)
     console.log(" event type "+ event.eventType)
     try {
         var response = await client.index({
@@ -40,6 +40,7 @@ eventsModel.saveProductEvent = async function (event) {
 }//eventsModel.saveProductEvent
 
 eventsModel.saveProduct = async function (product) {
+    console.log("Save product")
     try {
         var response = await client.index({
             index: 'products',

@@ -74,6 +74,6 @@ var subscribers = [];
 var avroEventHubListener = module.exports;
 
 avroEventHubListener.subscribeToEvents = function (callback) {
-    console.log("subscription receied")
+    console.log("event subscription received")
     subscribers.push(callback);
 }
