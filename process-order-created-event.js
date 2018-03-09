@@ -12,7 +12,7 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
         "payload": {
             "orderId": message.orderId,
             "shoppingCartId": message.shoppingCartId,
-            "status": message.success,
+            "status": message.status,
             "totalPrice": message.totalPrice,
             "currency": message.currency,
             "payment": !message.payment ? null : {
