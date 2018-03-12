@@ -1,12 +1,15 @@
 var request = require("request");
 
-console.log("Handle Order Created Event - Logistics Endpoint Env Var  "+process.env.LOGISTICS_MS_API_ENDPOINT )
+console.log("Handle Order Created Event - Logistics Endpoint Env Var  " + process.env.LOGISTICS_MS_API_ENDPOINT)
 var LOGISTICS_MS_API_ENDPOINT = process.env.LOGISTICS_MS_API_ENDPOINT || 'https://oc-144-21-82-92.compute.oraclecloud.com:9129/api/logistics';
+var ORDERS_MS_API_ENDPOINT = process.env.ORDERS_MS_API_ENDPOINT || 'https://oc-144-21-82-92.compute.oraclecloud.com:9129/api/orders';
 
 var orderCreatedEventProcessor = module.exports;
 
 orderCreatedEventProcessor.handleProductEventHubEvent = async function (message) {
     console.log("Process Order Created:  Order Created Event payload " + JSON.stringify(message));
+    // only process the order if it has not been canceled
+    if (message.status=="CANCELED") return; 
     var event = {
         "eventType": "OrderCreatedEvent",
         "payload": {
@@ -73,17 +76,17 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
                 nameAddressee: (event.payload.shipping && event.payload.shipping.firstName) ?
                     event.payload.shipping.firstName + " " + event.payload.shipping.lastName
                     : event.payload.customer.firstName + " " + event.payload.customer.lastName,
-                    // if there is a specific delivery address, use that for the destination; if there is none, use the first address found in the order created event
+                // if there is a specific delivery address, use that for the destination; if there is none, use the first address found in the order created event
                 destination: event.payload.addresses.reduce((destination, address) => {
-                    console.log("From reduce on addresses; "+JSON.stringify(address)+"- destination "+JSON.stringify(destination))
+                    console.log("From reduce on addresses; " + JSON.stringify(address) + "- destination " + JSON.stringify(destination))
                     if (!destination || !destination.country || address.type.toUpperCase() == 'DELIVERY') {
                         console.log("define destination ")
                         destination.country = address.country, destination.city = address.city
-                        console.log("defined destination "+JSON.stringify(destination))
+                        console.log("defined destination " + JSON.stringify(destination))
                     }
                     return destination
                 }
-                    , {"city":null, "country":null}),
+                    , { "city": null, "country": null }),
                 shippingMethod: event.payload.shipping && event.payload.shipping.shippingMethod ? event.payload.shipping.shippingMethod : 'economy',
                 giftWrapping: event.payload.specialDetails && event.payload.specialDetails.giftWrapping && event.payload.specialDetails.giftWrapping.boolean
                     ? event.payload.specialDetails.giftWrapping.boolean
@@ -108,8 +111,43 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
 
             }
 
-            console.log("Created shipping - response from Logistics MS: " + body);
+            console.log("response from Logistics MS: " + body);
             console.log("body: " + JSON.stringify(body));
+            if (body.status == "OK") {
+                console.log("Created shipping successfully (hoorah); shipping costs have been set at :" + body.shippingCosts)
+                // TODO update the order with the actual shipping costs
+            }
+            if (body.status == "NOK") {
+                console.log("Failed to create shipping successfully (boohoo); because of :" + JSON.stringify(body.validationFindings))
+                // if the failure to create the shipping as anything to do with validation failure - requesting out of stock products or an unsupported shipping destination - then the order should be canceled 
+                //note:
+                // to resolved an issue with the certificate (unable to verify the first certificate)
+                // I added the  "rejectUnauthorized": false, based on this resource: https://stackoverflow.com/questions/31673587/error-unable-to-verify-the-first-certificate-in-nodejs
+                var options = {
+                    method: 'POST',
+                    "rejectUnauthorized": false,
+
+                    url: ORDERS_MS_API_ENDPOINT+"/" + event.payload.orderId + '/cancel',
+                    headers:
+                        {
+                            'Cache-Control': 'no-cache',
+                            'api-key': '73f1c312-64e1-4069-92d8-0179ac056e90',                            
+                            'Content-Type': 'application/json'
+                        },
+                    body: {},
+                    json: true
+                };
+
+                console.log("Inform Orders MS about canceled order ")
+                console.log(JSON.stringify(options))
+                request(options, function (error, response, body) {
+                    if (error) throw new Error(error);
+
+                    console.log("call to cancel order was successful");
+                    console.log(body);
+                });
+            }
+
         } catch (e) {
             console.log("Failed to handle call to create shipping because of error " + e)
 
