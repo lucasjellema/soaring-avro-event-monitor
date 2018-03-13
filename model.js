@@ -40,10 +40,11 @@ eventsModel.saveProductEvent = async function (event) {
 }//eventsModel.saveProductEvent
 
 eventsModel.saveProduct = async function (product) {
-    console.log("Save product")
+    console.log("Save (create or update) product with identifier "+product.id)
     try {
         var response = await client.index({
             index: 'products',
+            id: product.id,
             type: 'doc',
             body: product
         }
