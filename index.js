@@ -10,7 +10,7 @@ var orderCreatedEventProcessor = require("./process-order-created-event.js");
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.15"
+var APP_VERSION = "0.0.16"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 
 var totalEventCount = 0;

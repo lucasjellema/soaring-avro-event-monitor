@@ -2,7 +2,9 @@ var KafkaAvro = require('kafka-avro');
 var fmt = require('bunyan-format');
 var kafkaLog = KafkaAvro.getLogger();
 
-console.log("Consumer Products.js")
+var MODULE_VERSION = '1.1'
+
+console.log(`soaring-avro-event-consumer.js - module version ${MODULE_VERSION}`)
 var EVENT_HUB_PUBLIC_IP = process.env.EVENT_HUB_HOST || '130.61.35.61';
 var SCHEMA_REGISTRY = process.env.SCHEMA_REGISTRY || 'http://130.61.35.61:8081'
 
