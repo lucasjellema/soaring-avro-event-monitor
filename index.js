@@ -10,11 +10,15 @@ var orderCreatedEventProcessor = require("./process-order-created-event.js");
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.12"
+var APP_VERSION = "0.0.15"
 var APP_NAME = "Soaring Avro Event Monitor MS"
-console.log("Running " + APP_NAME + " version " + APP_VERSION + "; listening at port " + PORT);
 
 var totalEventCount = 0;
+
+var server = http.createServer(app);
+server.listen(PORT, function () {
+    console.log("Running " + APP_NAME + " version " + APP_VERSION + "; listening at port " + PORT);
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,11 +49,11 @@ eventHubListener.subscribeToEvents(
             console.log("The event:")
             console.log(JSON.stringify(message))
             handleSoaringEventHubEvent(topic, message)
-            if (topic == "a516817-soaring-products" && message.productId) {
+            if (topic == "soaring-products" && message.productId) {
                 handleProductEventHubEvent(message)
             }
-            if (topic == "a516817-soaring-order-created" ) {
-                orderCreatedEventProcessor.handleProductEventHubEvent(message)
+            if (topic == "soaring-ordercreated" || topic == "soaring-ordercreated-2" ) {
+                orderCreatedEventProcessor.handleOrderEventHubEvent(message)
             }
             } catch (error) {
             console.log("failed to handle message from event hub", error);

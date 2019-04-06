@@ -3,15 +3,15 @@ var fmt = require('bunyan-format');
 var kafkaLog = KafkaAvro.getLogger();
 
 console.log("Consumer Products.js")
-var EVENT_HUB_PUBLIC_IP = process.env.EVENT_HUB_HOST || '129.150.77.116';
-var SCHEMA_REGISTRY = process.env.SCHEMA_REGISTRY || 'http://129.150.114.134:8081'
+var EVENT_HUB_PUBLIC_IP = process.env.EVENT_HUB_HOST || '130.61.35.61';
+var SCHEMA_REGISTRY = process.env.SCHEMA_REGISTRY || 'http://130.61.35.61:8081'
 
 console.log("Env Setting EVENT_HUB_HOST: " + process.env.EVENT_HUB_HOST)
 console.log("Env Setting SCHEMA_REGISTRY: " + SCHEMA_REGISTRY)
 
 
 var kafkaAvro = new KafkaAvro({
-    kafkaBroker: EVENT_HUB_PUBLIC_IP+':6667',
+    kafkaBroker: EVENT_HUB_PUBLIC_IP+':9092',
     schemaRegistry: SCHEMA_REGISTRY,
     parseOptions: { wrapUnions: true }
 });
@@ -31,22 +31,25 @@ kafkaLog.addStream({
     level: 'debug',
 });
 
+  
 
+  
 kafkaAvro.getConsumer({
     'group.id': 'avro-event-monitor' + new Date(),
     'socket.keepalive.enable': true,
-    'enable.auto.commit': true,
-})
+    'enable.auto.commit': true
+   },
+    {'auto.offset.reset': 'latest'}) //topic options ; values for auto.offset.reset: smallest, earliest, largest, latest, error
     // the "getConsumer()" method will return a bluebird promise.
     .then(function (consumer) {
         console.log("create consumer")
         // Topic Name can be a string, or an array of strings
 
-        var topicName = ['a516817-soaring-products', 'a516817-soaring-user-sign-ins', 'a516817-soaring-add-to-shopping-cart'
-        , 'a516817-soaring-order-created', 'a516817-soaring-customers', 'a516817-soaring-payment-status', 'a516817-soaring-customer-status'];
+        var topicName = ['soaring-products', 'soaring-usersignins', 'soaring-add-to-shopping-cart'
+        , 'soaring-ordercreated', 'soaring-ordercreated-2', 'soaring-customers', 'soaring-paymentstatus', 'soaring-customerstatus'];
         console.log("Listening to topics " + topicName)
         var stream = consumer.getReadStream(topicName, {
-            waitInterval: 0
+            waitInterval: 0,
         });
 
         stream.on('error', function () {
@@ -60,10 +63,10 @@ kafkaAvro.getConsumer({
 
         stream.on('data', function (message) {
             console.log('Received message from topic:', message.topic);
+            console.log(JSON.stringify(message))
             console.log('Received message content:', message.parsed);
             subscribers.forEach((subscriber) => {
-                subscriber(message.topic, message.parsed);
-
+              subscriber(message.topic, message.parsed);
             })
         });
     });
