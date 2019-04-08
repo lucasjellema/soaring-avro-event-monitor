@@ -10,7 +10,7 @@ var orderCreatedEventProcessor = require("./process-order-created-event.js");
 var model = require("./model");
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.16"
+var APP_VERSION = "0.0.17"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 
 var totalEventCount = 0;
@@ -55,12 +55,29 @@ eventHubListener.subscribeToEvents(
             if (topic == "soaring-ordercreated" || topic == "soaring-ordercreated-2" ) {
                 orderCreatedEventProcessor.handleOrderEventHubEvent(message)
             }
+            if (topic == "soaring-shipmentpickedup") {
+                handleShipmentPickedUp(message)
+            }
+            if (topic == "soaring-shipmentreceived") {
+                handleShipmentDelivered(message)
+            }
+            
             } catch (error) {
             console.log("failed to handle message from event hub", error);
 
         }
     }
 );
+
+async function handleShipmentPickedUp(message) {
+    console.log("External Shipper has picked up shipment Event payload " + JSON.stringify(message));
+    //TODO update Shipping index for this shipping with the new status
+}//handleShipmentPickedUp    
+
+async function handleShipmentDelivered(message) {
+    console.log("External Shipper has delivered shipment Event payload " + JSON.stringify(message));
+    //TODO update Shipping index for this shipping with the new status
+}//handleShipmentDelivered    
 
 
 async function handleProductEventHubEvent(message) {

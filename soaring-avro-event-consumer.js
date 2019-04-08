@@ -2,7 +2,7 @@ var KafkaAvro = require('kafka-avro');
 var fmt = require('bunyan-format');
 var kafkaLog = KafkaAvro.getLogger();
 
-var MODULE_VERSION = '1.1'
+var MODULE_VERSION = '1.2'
 
 console.log(`soaring-avro-event-consumer.js - module version ${MODULE_VERSION}`)
 var EVENT_HUB_PUBLIC_IP = process.env.EVENT_HUB_HOST || '130.61.35.61';
@@ -48,7 +48,8 @@ kafkaAvro.getConsumer({
         // Topic Name can be a string, or an array of strings
 
         var topicName = ['soaring-products', 'soaring-usersignins', 'soaring-add-to-shopping-cart'
-        , 'soaring-ordercreated', 'soaring-ordercreated-2', 'soaring-customers', 'soaring-paymentstatus', 'soaring-customerstatus'];
+        , 'soaring-ordercreated', 'soaring-ordercreated-2', 'soaring-customers', 'soaring-paymentstatus', 'soaring-customerstatus'
+        ,'soaring-shipmentpickedup' , 'soaring-shipmentreceived'];
         console.log("Listening to topics " + topicName)
         var stream = consumer.getReadStream(topicName, {
             waitInterval: 0,
