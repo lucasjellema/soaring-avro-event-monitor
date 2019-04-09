@@ -6,10 +6,10 @@ var ORDERS_MS_API_ENDPOINT = process.env.ORDERS_MS_API_ENDPOINT || 'https://oc-1
 
 var orderCreatedEventProcessor = module.exports;
 
-orderCreatedEventProcessor.handleProductEventHubEvent = async function (message) {
+orderCreatedEventProcessor.handleOrderEventHubEvent = async function (message) {
     console.log("Process Order Created:  Order Created Event payload " + JSON.stringify(message));
     // only process the order if it has not been canceled
-    if (message.status=="CANCELED") return; 
+    if (message.status == "CANCELED") return;
     var event = {
         "eventType": "OrderCreatedEvent",
         "payload": {
@@ -39,6 +39,11 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
                     orderAddresses.push(orderAddress); return orderAddresses
                 }
                     , []),
+            "shipping": {
+                "shippingMethod": (!message.shipping || !message.shipping.shippingMethod) ? null : message.shipping.shippingMethod
+                , "shippingCompany": (!message.shipping || !message.shipping.shippingCompany || message.shipping.shippingCompany.string) ? null : message.shipping.shippingCompany.string
+                , "shippingId": (!message.shipping || !message.shipping.shippingId || message.shipping.shippingId.string) ? null : message.shipping.shippingId.string
+            },
             "items": (!message.items || !message.items.array) ? null
                 : message.items.array.reduce((orderItems, item) => {
                     var orderItem = {
@@ -66,41 +71,42 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
         "rejectUnauthorized": false,
         url: LOGISTICS_MS_API_ENDPOINT + '/shipping',
         headers:
-            {
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/json'
-            },
+        {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json'
+        },
         body:
-            {
-                orderIdentifier: event.payload.orderId,
-                nameAddressee: (event.payload.shipping && event.payload.shipping.firstName) ?
-                    event.payload.shipping.firstName + " " + event.payload.shipping.lastName
-                    : event.payload.customer.firstName + " " + event.payload.customer.lastName,
-                // if there is a specific delivery address, use that for the destination; if there is none, use the first address found in the order created event
-                destination: event.payload.addresses.reduce((destination, address) => {
-                    console.log("From reduce on addresses; " + JSON.stringify(address) + "- destination " + JSON.stringify(destination))
-                    if (!destination || !destination.country || address.type.toUpperCase() == 'DELIVERY') {
-                        console.log("define destination ")
-                        destination.country = address.country, destination.city = address.city
-                        console.log("defined destination " + JSON.stringify(destination))
-                    }
-                    return destination
+        {
+            orderIdentifier: event.payload.orderId,
+            nameAddressee: (event.payload.shipping && event.payload.shipping.firstName) ?
+                event.payload.shipping.firstName + " " + event.payload.shipping.lastName
+                : event.payload.customer.firstName + " " + event.payload.customer.lastName,
+            // if there is a specific delivery address, use that for the destination; if there is none, use the first address found in the order created event
+            destination: event.payload.addresses.reduce((destination, address) => {
+                console.log("From reduce on addresses; " + JSON.stringify(address) + "- destination " + JSON.stringify(destination))
+                if (!destination || !destination.country || address.type.toUpperCase() == 'DELIVERY') {
+                    console.log("define destination ")
+                    destination.country = address.country, destination.city = address.city
+                    console.log("defined destination " + JSON.stringify(destination))
                 }
-                    , { "city": null, "country": null }),
-                shippingMethod: event.payload.shipping && event.payload.shipping.shippingMethod ? event.payload.shipping.shippingMethod : 'economy',
-                giftWrapping: event.payload.specialDetails && event.payload.specialDetails.giftWrapping && event.payload.specialDetails.giftWrapping.boolean
-                    ? event.payload.specialDetails.giftWrapping.boolean
-                    : false,
-                personalMessage: event.payload.specialDetails && event.payload.specialDetails.personalMessage && event.payload.specialDetails.personalMessage.string
-                    ? event.payload.specialDetails.personalMessage.string
-                    : false,
-                items: event.payload.items.map(item => {
-                    return {
-                        productIdentifier: item.productId,
-                        itemCount: item.quantity
-                    }
-                })
-            },
+                return destination
+             }
+             , { "city": null, "country": null }),
+            shippingMethod: event.payload.shipping && event.payload.shipping.shippingMethod ? event.payload.shipping.shippingMethod : 'economy',
+            shipping: event.shipping,
+            giftWrapping: event.payload.specialDetails && event.payload.specialDetails.giftWrapping && event.payload.specialDetails.giftWrapping.boolean
+                ? event.payload.specialDetails.giftWrapping.boolean
+                : false,
+            personalMessage: event.payload.specialDetails && event.payload.specialDetails.personalMessage && event.payload.specialDetails.personalMessage.string
+                ? event.payload.specialDetails.personalMessage.string
+                : false,
+            items: event.payload.items.map(item => {
+                return {
+                    productIdentifier: item.productId,
+                    itemCount: item.quantity
+                }
+            })
+        },
         json: true
     };
 
@@ -127,13 +133,13 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
                     method: 'POST',
                     "rejectUnauthorized": false,
 
-                    url: ORDERS_MS_API_ENDPOINT+"/" + event.payload.orderId + '/cancel',
+                    url: ORDERS_MS_API_ENDPOINT + "/" + event.payload.orderId + '/cancel',
                     headers:
-                        {
-                            'Cache-Control': 'no-cache',
-                            'api-key': '73f1c312-64e1-4069-92d8-0179ac056e90',                            
-                            'Content-Type': 'application/json'
-                        },
+                    {
+                        'Cache-Control': 'no-cache',
+                        'api-key': '73f1c312-64e1-4069-92d8-0179ac056e90',
+                        'Content-Type': 'application/json'
+                    },
                     body: {},
                     json: true
                 };
@@ -154,7 +160,7 @@ orderCreatedEventProcessor.handleProductEventHubEvent = async function (message)
         }
     });
 
-}
+}//orderCreatedEventProcessor
 
 
 
