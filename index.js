@@ -8,9 +8,10 @@ var eventHubListener = require("./soaring-avro-event-consumer.js");
 var orderCreatedEventProcessor = require("./process-order-created-event.js");
 
 var model = require("./model");
+var LOGISTICS_MS_API_ENDPOINT = process.env.LOGISTICS_MS_API_ENDPOINT 
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.17"
+var APP_VERSION = "0.0.18"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 
 var totalEventCount = 0;
@@ -72,11 +73,60 @@ eventHubListener.subscribeToEvents(
 async function handleShipmentPickedUp(message) {
     console.log("External Shipper has picked up shipment Event payload " + JSON.stringify(message));
     //TODO update Shipping index for this shipping with the new status
+    //{"type": "shipmentPickedUp","orderId":"112","shipper":"EdFex","pickupDate":1554797232}
+    var options = {
+        method: 'POST',
+        "rejectUnauthorized": false,
+        url: `${LOGISTICS_MS_API_ENDPOINT}/shipping/updateShippingStatusForOrder/${message.orderId}`,
+        headers:
+        {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json'
+        }
+    }
+    options.body = {"type":"shipmentPickedUp","orderId":message.orderId,"shipper":message.shipper,"pickupDate":message.pickupDate}
+    request(options, function (error, response, body) {
+        try {
+            if (error) {
+                console.log("Failed to post shipping update because of error " + error)
+
+            }
+
+            console.log("response from Logistics MS: " + body);
+        } catch (e) {
+            console.log("Failed to handle call to create shipping because of error " + e)
+
+        }
+    });
 }//handleShipmentPickedUp    
 
 async function handleShipmentDelivered(message) {
     console.log("External Shipper has delivered shipment Event payload " + JSON.stringify(message));
     //TODO update Shipping index for this shipping with the new status
+    var options = {
+        method: 'POST',
+        "rejectUnauthorized": false,
+        url: `${LOGISTICS_MS_API_ENDPOINT}/shipping/updateShippingStatusForOrder/${message.orderId}`,
+        headers:
+        {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json'
+        }
+    }
+    options.body = {"type":"shipmentDelivered","orderId":message.orderId,"shipper":message.shipper,"pickupDate":message.pickupDate}
+    request(options, function (error, response, body) {
+        try {
+            if (error) {
+                console.log("Failed to post shipping update because of error " + error)
+
+            }
+
+            console.log("response from Logistics MS: " + body);
+        } catch (e) {
+            console.log("Failed to handle call to create shipping because of error " + e)
+
+        }
+    });
 }//handleShipmentDelivered    
 
 
