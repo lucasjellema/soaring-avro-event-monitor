@@ -86,7 +86,7 @@ async function handleShipmentPickedUp(message) {
         }
         ,json: true
     }
-    console.log(`Ready to post shipping update to logistics ms, options = ${JSON,.stringify(options)}`)
+    console.log(`Ready to post shipping update to logistics ms, options = ${JSON.stringify(options)}`)
 
     options.body = {"type":"shipmentPickedUp","orderId":message.orderId,"shipper":message.shipper,"pickupDate":message.pickupDate}
     console.log(`make request with body : ${options.body}`)
