@@ -41,8 +41,8 @@ orderCreatedEventProcessor.handleOrderEventHubEvent = async function (message) {
                     , []),
             "shipping": {
                 "shippingMethod": (!message.shipping || !message.shipping.shippingMethod) ? null : message.shipping.shippingMethod
-                , "shippingCompany": (!message.shipping || !message.shipping.shippingCompany || message.shipping.shippingCompany.string) ? null : message.shipping.shippingCompany.string
-                , "shippingId": (!message.shipping || !message.shipping.shippingId || message.shipping.shippingId.string) ? null : message.shipping.shippingId.string
+                , "shippingCompany": (!message.shipping || !message.shipping.shippingCompany || !message.shipping.shippingCompany.string) ? null : message.shipping.shippingCompany.string
+                , "shippingId": (!message.shipping || !message.shipping.shippingId || !message.shipping.shippingId.string) ? null : message.shipping.shippingId.string
             },
             "items": (!message.items || !message.items.array) ? null
                 : message.items.array.reduce((orderItems, item) => {
@@ -93,7 +93,7 @@ orderCreatedEventProcessor.handleOrderEventHubEvent = async function (message) {
              }
              , { "city": null, "country": null }),
             shippingMethod: event.payload.shipping && event.payload.shipping.shippingMethod ? event.payload.shipping.shippingMethod : 'economy',
-            shipping: event.shipping,
+            shipping: event.payload.shipping,
             giftWrapping: event.payload.specialDetails && event.payload.specialDetails.giftWrapping && event.payload.specialDetails.giftWrapping.boolean
                 ? event.payload.specialDetails.giftWrapping.boolean
                 : false,
