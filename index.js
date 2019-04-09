@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var http = require('http');
+var request = require("request");
 
 // local modules
 var eventHubListener = require("./soaring-avro-event-consumer.js");
@@ -11,7 +12,7 @@ var model = require("./model");
 var LOGISTICS_MS_API_ENDPOINT = process.env.LOGISTICS_MS_API_ENDPOINT 
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.18"
+var APP_VERSION = "0.0.19"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 
 var totalEventCount = 0;
