@@ -12,7 +12,7 @@ var model = require("./model");
 var LOGISTICS_MS_API_ENDPOINT = process.env.LOGISTICS_MS_API_ENDPOINT 
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.19"
+var APP_VERSION = "0.0.20"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 
 var totalEventCount = 0;
@@ -84,6 +84,7 @@ async function handleShipmentPickedUp(message) {
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/json'
         }
+        ,json: true
     }
     options.body = {"type":"shipmentPickedUp","orderId":message.orderId,"shipper":message.shipper,"pickupDate":message.pickupDate}
     request(options, function (error, response, body) {
@@ -113,6 +114,7 @@ async function handleShipmentDelivered(message) {
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/json'
         }
+        ,json: true
     }
     options.body = {"type":"shipmentDelivered","orderId":message.orderId,"shipper":message.shipper,"pickupDate":message.pickupDate}
     request(options, function (error, response, body) {
