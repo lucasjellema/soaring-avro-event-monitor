@@ -12,7 +12,7 @@ var model = require("./model");
 var LOGISTICS_MS_API_ENDPOINT = process.env.LOGISTICS_MS_API_ENDPOINT 
 
 var PORT = process.env.APP_PORT || 8099;
-var APP_VERSION = "0.0.20"
+var APP_VERSION = "0.0.21"
 var APP_NAME = "Soaring Avro Event Monitor MS"
 
 var totalEventCount = 0;
@@ -86,7 +86,10 @@ async function handleShipmentPickedUp(message) {
         }
         ,json: true
     }
+    console.log(`Ready to post shipping update to logistics ms, options = ${JSON,.stringify(options)}`)
+
     options.body = {"type":"shipmentPickedUp","orderId":message.orderId,"shipper":message.shipper,"pickupDate":message.pickupDate}
+    console.log(`make request with body : ${options.body}`)
     request(options, function (error, response, body) {
         try {
             if (error) {
@@ -196,7 +199,7 @@ async function handleProductEventHubEvent(message) {
 
 
 async function handleSoaringEventHubEvent(topic, message) {
-    console.log("Event payload " + JSON.stringify(message));
+    console.log("Save event to Elastic Index - event payload " + JSON.stringify(message));
     var event = {
         "eventType": topic + "Event",
         "payload": message
